@@ -62,7 +62,7 @@ function running.load()
 
     scale_x = window_width / background_width
     scale_y = window_height / background_height
-    
+
     -- Load SUN image
     sunImage = love.graphics.newImage('sprites/sun.png')
 
@@ -82,27 +82,28 @@ function running.load()
 
     -- Load DISPLAY image
     fishImages.spriteSheetNormal = love.graphics.newImage('sprites/display1Sheet.png')
-    fishImages.gridNormal = anim8.newGrid ( 64, 64, fishImages.spriteSheetNormal:getWidth(), fishImages.spriteSheetNormal:getHeight() )
+    fishImages.gridNormal = anim8.newGrid(64, 64, fishImages.spriteSheetNormal:getWidth(),
+        fishImages.spriteSheetNormal:getHeight())
 
     fishImages.spriteSheetGlitch = love.graphics.newImage('sprites/display2Sheet.png')
-    fishImages.gridGlitch = anim8.newGrid ( 64, 64, fishImages.spriteSheetGlitch:getWidth(), fishImages.spriteSheetGlitch:getHeight() )
+    fishImages.gridGlitch = anim8.newGrid(64, 64, fishImages.spriteSheetGlitch:getWidth(),
+        fishImages.spriteSheetGlitch:getHeight())
     fishImages.glitch = love.graphics.newImage('sprites/glitch.png')
-    
-    fishImages.animations = {}
-    fishImages.animations.displayNormal = anim8.newAnimation( fishImages.gridNormal('1-6', 1), 0.20 )
-    fishImages.animations.displayGlitch = anim8.newAnimation( fishImages.gridGlitch('1-6', 1), 0.20 )
 
+    fishImages.animations = {}
+    fishImages.animations.displayNormal = anim8.newAnimation(fishImages.gridNormal('1-6', 1), 0.20)
+    fishImages.animations.displayGlitch = anim8.newAnimation(fishImages.gridGlitch('1-6', 1), 0.20)
 
     -- PLAYER properties
     player.x = 0
     player.y = 0
-    player.spriteSheet  = love.graphics.newImage('sprites/finnSheet.png')
-    player.grid = anim8.newGrid( 64, 64, player.spriteSheet:getWidth(), player.spriteSheet:getHeight() )
-    
+    player.spriteSheet = love.graphics.newImage('sprites/finnSheet.png')
+    player.grid = anim8.newGrid(64, 64, player.spriteSheet:getWidth(), player.spriteSheet:getHeight())
+
     player.animations = {}
-    player.animations.quiet = anim8.newAnimation( player.grid('1-2', 1), 1 )
-    player.animations.snagged = anim8.newAnimation( player.grid('1-2', 2), 0.5 )
-    player.animations.pulled = anim8.newAnimation( player.grid('1-2', 3), 0.2 )
+    player.animations.quiet = anim8.newAnimation(player.grid('1-2', 1), 1)
+    player.animations.snagged = anim8.newAnimation(player.grid('1-2', 2), 0.5)
+    player.animations.pulled = anim8.newAnimation(player.grid('1-2', 3), 0.2)
 
     -- PLAYER will be *pre-set* to 'quite'
     player.anim = player.animations.quiet
@@ -110,17 +111,17 @@ function running.load()
     -- LURE properties:
     lure.x = WINDOW_WIDTH / 2
     lure.originalLurePosition = -15
-    lure.y = lure.originalLurePosition 
+    lure.y = lure.originalLurePosition
     lure.x_speed = 7
     lure.x_direction = 1
     lure.y_speed = 15
     lure.y_direction = -1
     lure.spriteSheet = love.graphics.newImage('sprites/lureSheet.png') -- !!!NOT WORKING
-    lure.grid = anim8.newGrid( 192, 416, lure.spriteSheet:getWidth(), lure.spriteSheet:getHeight() )
+    lure.grid = anim8.newGrid(192, 416, lure.spriteSheet:getWidth(), lure.spriteSheet:getHeight())
 
     lure.animations = {}
-    lure.animations.snagged = anim8.newAnimation( lure.grid('1-4', 1), 0.20 )
-    lure.animations.pulled = anim8.newAnimation( lure.grid('1-4', 2), 0.1 )
+    lure.animations.snagged = anim8.newAnimation(lure.grid('1-4', 1), 0.20)
+    lure.animations.pulled = anim8.newAnimation(lure.grid('1-4', 2), 0.1)
 
     -- LURE will be *pre-set* to 'pulled'
     lure.anim = lure.animations.pulled
@@ -135,29 +136,28 @@ function running.load()
 
     sounds.mlem:setVolume(0.5)
 
-    sounds.inGameMusic:setVolume(1) 
+    sounds.inGameMusic:setVolume(1)
     sounds.inGameMusic:setLooping(true)
     sounds.inGameMusic:play()
 
     -- Font
     myFont = love.graphics.newFont("Pixelify_Sans/PixelifySans-VariableFont_wght.ttf", 16)
-end
 
-
-function love.keyreleased(key)
-    if key == "space" then
-        -- Will update key_released table for key pressed
-        love.keyboard.key_released[key] = true
-        -- Play sound
-        sounds.mlem:play()
-    --[[ TESTING PURPOSES -> Player is taken back to fishing mode
-    elseif key == "b" then 
-        backToFishing = true
-        lure.x = WINDOW_WIDTH / 2
-        lure.y = lure.originalLurePosition
-        ]]
-    else
-        print("Ignoring key press: ", key)
+    function love.keyreleased(key)
+        if key == "space" then
+            -- Will update key_released table for key pressed
+            love.keyboard.key_released[key] = true
+            -- Play sound
+            sounds.mlem:play()
+            --[[ TESTING PURPOSES -> Player is taken back to fishing mode
+        elseif key == "b" then 
+            backToFishing = true
+            lure.x = WINDOW_WIDTH / 2
+            lure.y = lure.originalLurePosition
+            ]]
+        else
+            print("Ignoring key press: ", key)
+        end
     end
 end
 
@@ -175,7 +175,7 @@ function change_state(newState)
     if current_state.load then
         current_state.load()
     end
-    
+
     return current_state
 end
 
@@ -184,8 +184,8 @@ function checkEnding()
     sounds.inGameMusic:stop()
 
     local totalCreatures = 0 -- Total number of creature types calculated using loop as this is a table (key-value pairs) NOT an array
-    for _ in pairs(fishImages.creatures) do 
-        totalCreatures = totalCreatures + 1 
+    for _ in pairs(fishImages.creatures) do
+        totalCreatures = totalCreatures + 1
     end
 
     local caughtCreature_count = #caughtCreatures
@@ -223,7 +223,7 @@ function running.update(dt) -- dt = delta time
         tutorialTextOn = false
     end
 
-    if love.keyboard.isDown("space") and backToFishing and not lureBeingPulled then 
+    if love.keyboard.isDown("space") and backToFishing and not lureBeingPulled then
         -- PLAYER is 'snagged'
         player.anim = player.animations.snagged
         lure.anim = lure.animations.snagged
@@ -233,21 +233,21 @@ function running.update(dt) -- dt = delta time
 
         if lure.x <= 0 or lure.x >= WINDOW_WIDTH then -- This means the GAP per creature is 140pixels
             lure.x_direction = lure.x_direction * -1
-        end 
+        end
     end
 
     if love.keyboard.wasReleased("space") and backToFishing then
         -- PLAYER is pulling ('pulled')     
         player.anim = player.animations.pulled
         lure.anim = lure.animations.pulled
-               
+
         -- LURE being pulled
         if lure.y + (lure.y_speed * lure.y_direction) < -600 then -- Setting how far up the lure needs to be pulled
             lure.y = -600
             lureBeingPulled = true
             backToFishing = false
             newCreature = generateFish(lure.x)
-            
+
             -- Check if creature already caught in caughtCreatures table
             local alreadyCaught = false
             for _, creature in ipairs(caughtCreatures) do
@@ -259,18 +259,18 @@ function running.update(dt) -- dt = delta time
 
             -- Adds to caughtCreatures table if not caught yet
             if not alreadyCaught then
-                table.insert(caughtCreatures, newCreature) 
+                table.insert(caughtCreatures, newCreature)
             end
 
             -- Start the display timer when a creature is caught
-            creatureDisplayTimer = creatureDisplayDuration  
+            creatureDisplayTimer = creatureDisplayDuration
             isTimerRunning = true
 
         else
             lure.y = lure.y + (lure.y_speed * lure.y_direction)
         end
-    end 
-    
+    end
+
     -- Reverting *some* values back to fish
     if not backToFishing then
         lureBeingPulled = false
@@ -301,8 +301,8 @@ function running.update(dt) -- dt = delta time
     if gameTimeRemaining <= 0 then
         gameOver = true
         if gameOver then
-        -- Time's up, transitioning to different ending gamestates depending on results
-        checkEnding()
+            -- Time's up, transitioning to different ending gamestates depending on results
+            checkEnding()
         end
     end
 end
@@ -327,7 +327,7 @@ function generateFish(lure_xPosition)
         return fishImages.creatures.shark1
     end
 end
- 
+
 function running.draw()
     -- BACKGROUND Part1-3:
     love.graphics.draw(backgroundImages.sky, 0, 0, 0, scale_x, scale_y)
@@ -353,7 +353,8 @@ function running.draw()
 
     -- Display TUTORIAL
     if tutorialTextOn then
-        love.graphics.print("Hold down the SPACEBAR, \nand when you are ready.. \nrelease it!", ((WINDOW_WIDTH * 1.75) / 3), 20)
+        love.graphics.print("Hold down the SPACEBAR, \nand when you are ready.. \nrelease it!",
+            ((WINDOW_WIDTH * 1.75) / 3), 20)
     end
 
     -- LURE:
@@ -367,14 +368,20 @@ function running.draw()
     -- FISH:
     -- Display the caught creature temporarily
     if newCreature then
-        if newCreature == fishImages.creatures.crab2 or newCreature == fishImages.creatures.fish2 or newCreature == fishImages.creatures.jelly2 or newCreature == fishImages.creatures.shark2 then
+        if newCreature == fishImages.creatures.crab2 or newCreature == fishImages.creatures.fish2 or newCreature ==
+            fishImages.creatures.jelly2 or newCreature == fishImages.creatures.shark2 then
             love.graphics.draw(fishImages.glitch, 0, 0, 0, scale_x, scale_y)
-            fishImages.animations.displayGlitch:draw(fishImages.spriteSheetGlitch, WINDOW_WIDTH / 2 - (fishImages.gridGlitch.frameWidth * 6) / 2, WINDOW_HEIGHT / 2 - (fishImages.gridGlitch.frameHeight * 6) / 2, nil, 6, 6)
+            fishImages.animations.displayGlitch:draw(fishImages.spriteSheetGlitch,
+                WINDOW_WIDTH / 2 - (fishImages.gridGlitch.frameWidth * 6) / 2, WINDOW_HEIGHT / 2 -
+                    (fishImages.gridGlitch.frameHeight * 6) / 2, nil, 6, 6)
         else
-            fishImages.animations.displayNormal:draw(fishImages.spriteSheetNormal, WINDOW_WIDTH / 2 - (fishImages.gridNormal.frameWidth * 6) / 2, WINDOW_HEIGHT / 2 - (fishImages.gridNormal.frameHeight * 6) / 2, nil, 6, 6)
+            fishImages.animations.displayNormal:draw(fishImages.spriteSheetNormal,
+                WINDOW_WIDTH / 2 - (fishImages.gridNormal.frameWidth * 6) / 2, WINDOW_HEIGHT / 2 -
+                    (fishImages.gridNormal.frameHeight * 6) / 2, nil, 6, 6)
         end
-        
-        love.graphics.draw(newCreature, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 0, 6, 6, newCreature:getWidth() / 2, newCreature:getHeight() / 2)
+
+        love.graphics.draw(newCreature, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 0, 6, 6, newCreature:getWidth() / 2,
+            newCreature:getHeight() / 2)
 
         --[[ *DISABLED* Display a countdown timer on the screen 
         love.graphics.print("Display timer: " .. math.ceil(creatureDisplayTimer), (WINDOW_WIDTH * .85) / 2, (WINDOW_HEIGHT * 9) / 10)
@@ -382,12 +389,12 @@ function running.draw()
     end
 
     -- Display the caught creatures permanently
-    local creatureSize = 40  -- Adjusts the size of displayed creatures
-    local spacing = 15       -- Adjusts the vertical spacing between creatures
-    local startX = WINDOW_WIDTH - creatureSize - 30  -- Adjusts the starting X position
+    local creatureSize = 40 -- Adjusts the size of displayed creatures
+    local spacing = 15 -- Adjusts the vertical spacing between creatures
+    local startX = WINDOW_WIDTH - creatureSize - 30 -- Adjusts the starting X position
 
     for i, creatureImage in ipairs(caughtCreatures) do
-        local yPosition = (i - 1) * (creatureSize + spacing) + 20  -- Adjusts the spacing and starting position
+        local yPosition = (i - 1) * (creatureSize + spacing) + 20 -- Adjusts the spacing and starting position
         love.graphics.draw(creatureImage, startX, yPosition, nil, 1, 1)
     end
 end
