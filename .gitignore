@@ -1,3 +1,6 @@
 # Packages #
 *.zip
 *.love
+*.history/
+*.vscode/
+oldRunning.lua

@@ -3,41 +3,34 @@ local running = {}
 local ending1 = require("ending1")
 local ending2 = require("ending2")
 local ending3 = require("ending3")
+local gameState = require("gameState")
 
 -- Libaries
 local anim8 = require 'libraries/anim8'
 
--- Declaring constants
-WINDOW_WIDTH = 640
-WINDOW_HEIGHT = 480
+WINDOW_WIDTH = gameState.WINDOW_WIDTH
+WINDOW_HEIGHT = gameState.WINDOW_HEIGHT
 
--- Declaring variables
-local scale_x = 0
-local scale_y = 0
-local lureBeingPulled = false
-local backToFishing = true
-local tutorialTextOn = true
+scale_x = gameState.scale_x
+scale_y = gameState.scale_y
+lureBeingPulled = gameState.lureBeingPulled
+backToFishing = gameState.backToFishing
+tutorialTextOn = gameState.tutorialTextOn
 
--- Declaring image variables
-local newCreature = nil
+newCreature = gameState.newCreature
+player = gameState.player
+lure = gameState.lure
+backgroundImages = gameState.backgroundImages
+fishImages = gameState.fishImages
 
-local player = {}
-local lure = {}
-local backgroundImages = {}
-local fishImages = {}
-
--- Declaring timer variables
-local tutorialTimer = 0
-local tutorialDuration = 10
-
-local gameTime = 45 --[[ TO CHANGE FOR TESTING PURPOSES ]]
-local gameTimeRemaining = gameTime
-local gameOver = false -- Tracks whether countdown / ending should be initiated 
-
-local creatureDisplayTimer = 0
-local creatureDisplayDuration = 3
-local isTimerRunning = false -- Tracks whether the timer is currently running (to stop "space" keypress amidst creature being displayed)
-
+tutorialTimer = gameState.tutorialTimer
+tutorialDuration = gameState.tutorialDuration
+gameTime = gameState.gameTime
+gameTimeRemaining = gameState.gameTimeRemaining
+gameOver = gameState.gameOver
+creatureDisplayTimer = gameState.creatureDisplayTimer
+creatureDisplayDuration = gameState.creatureDisplayDuration
+isTimerRunning = gameState.isTimerRunning
 -- Stores caught creatures
 local caughtCreatures = {}
 
